@@ -5,16 +5,19 @@ namespace App\Livewire\Categories;
 use Livewire\Component;
 use App\Models\Category;
 use Livewire\WithPagination;
+use Illuminate\Support\Str;
+
 
 class Index extends Component
 {
     use WithPagination;
 
     public $search = '';
+    public $name = '';
     public $showCategoryFormModal = false; // Controla a visibilidade do modal do formulário
     public $editingCategoryId = null; // ID da categoria que está sendo editada
 
-    protected $listeners = ['categorySaved' => 'refreshCategories', 'categoryDeleted' => 'refreshCategories'];
+    protected $listeners = ['categorySaved' => 'refreshCategories', 'categoryDeleted' => 'refreshCategories','closeModal'=>'closeModal','editCategory'=>'refreshCategories'];
 
     // Método para redefinir a paginação ao aplicar filtros
     public function updatedSearch()
@@ -27,19 +30,23 @@ class Index extends Component
     {
         $this->editingCategoryId = null; // Garante que é uma nova criação
         $this->showCategoryFormModal = true;
+        $this->name = '';
     }
 
     // Abre o modal para editar uma categoria existente
-    public function editCategory(Category $category)
+    public function editCategory( $categoryId)
     {
+        $category = Category::findOrFail($categoryId);
         $this->editingCategoryId = $category->id;
         $this->showCategoryFormModal = true;
+        $this->name = $category->name;
     }
 
     // Deleta uma categoria
-    public function deleteCategory(Category $category)
+    public function deleteCategory( $categoryId)
     {
         // Regra de negócio: Não permitir deletar categoria se houver chamados associados
+         $category = Category::findOrFail($categoryId);
         if ($category->tickets()->count() > 0) {
             session()->flash('error', 'Não é possível deletar esta categoria, pois existem chamados associados a ela.');
             return; // Impede a deleção
@@ -55,6 +62,7 @@ class Index extends Component
     {
         $this->showCategoryFormModal = false;
         $this->editingCategoryId = null;
+        $this->name = '';
     }
 
     // Método para atualizar a lista após salvar/deletar (chamado pelo evento)

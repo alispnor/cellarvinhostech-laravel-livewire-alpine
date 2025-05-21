@@ -108,13 +108,13 @@
 <script>
     // Listener para abrir/fechar o modal com Bootstrap JS
     Livewire.on('show-ticket-modal', () => {
-        var myModal = new bootstrap.Modal(document.getElementById('ticketFormModal'));
-        myModal.show();
+        let ticketModal = new bootstrap.Modal(document.getElementById('ticketFormModal'));
+        ticketModal.show();
     });
 
     Livewire.on('hide-ticket-modal', () => {
-        var myModal = bootstrap.Modal.getInstance(document.getElementById('ticketFormModal'));
-        myModal.hide();
+        let ticketModal = bootstrap.Modal.getInstance(document.getElementById('ticketFormModal'));
+        ticketModal.hide();
     });
 </script>
 @endpush

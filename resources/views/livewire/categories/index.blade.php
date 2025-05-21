@@ -32,8 +32,8 @@
                     <td class="py-2 px-4 border">{{ $category->name }}</td>
                     <td class="py-2 px-4 border">{{ $category->created_at->format('d/m/Y H:i') }}</td>
                     <td class="py-2 px-4 border text-center">
-                        <button wire:click="editCategory({{ $category->id }})" class="btn btn-secondary mr-2">Editar</button>
-                        <button wire:click="deleteCategory({{ $category->id }})" wire:confirm="Tem certeza que deseja deletar esta categoria?" class="btn btn-danger">Deletar</button>
+                        <button wire:click="editCategory('{{ $category->id }}')" class="btn btn-secondary mr-2">Editar</button>
+                        <button wire:click="deleteCategory('{{ $category->id }}')" wire:confirm="Tem certeza que deseja deletar esta categoria?" class="btn btn-danger">Deletar</button>
                     </td>
                 </tr>
             @empty
