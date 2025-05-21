@@ -6,7 +6,7 @@
         @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
     </div>
     <div class="flex justify-end space-x-2">
-        <button type="button" wire:click="closeForm" class="btn-secondary">Cancelar</button>
-        <button type="submit" class="btn-primary">Salvar Categoria</button>
+        <button type="button" wire:click="closeForm" class="btn btn-secondary">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Salvar Categoria</button>
     </div>
 </form>
