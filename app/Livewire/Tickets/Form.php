@@ -32,6 +32,7 @@ class Form extends Component
     public function mount($ticketId = null)
     {
         $this->ticketId = $ticketId;
+        $this->status = 'aberto';
 
         if ($this->ticketId) {
             $ticket = Ticket::find($this->ticketId);

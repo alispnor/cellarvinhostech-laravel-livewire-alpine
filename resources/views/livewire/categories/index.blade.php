@@ -1,5 +1,10 @@
+<div class="row">
+<div class="col-12 p-6">
+<div class="card">
+<div class="card-body">
+
 <div class="p-6">
-    <h2 class="text-2xl font-bold mb-4">Gestão de Categorias</h2>
+    <h2 class="header-title">Gestão de Categorias</h2>
 
     @if (session()->has('message'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -15,25 +20,26 @@
 
     <div class="mb-4 flex items-center justify-between">
         <input type="text" wire:model.live="search" placeholder="Buscar categorias..." class="form-input rounded-md shadow-sm w-1/3">
-        <button wire:click="createCategory" class="btn btn-primary">Criar Nova Categoria</button>
+        <button wire:click="createCategory" class="btn btn-outline-primary waves-effect waves-light">Criar Nova Categoria</button>
     </div>
+      <div class="table-responsive">
 
-    <table class="w-full border-collapse">
+    <table class="tablesaw table mb-0" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
         <thead>
-            <tr class="bg-gray-200">
-                <th class="py-2 px-4 border">Nome</th>
-                <th class="py-2 px-4 border">Criado Em</th>
-                <th class="py-2 px-4 border">Ações</th>
+            <tr>
+                <th class=" title" scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Nome</th>
+                <th class="" scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="2">Criado Em</th>
+                <th class="" scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="4"></th>
             </tr>
         </thead>
         <tbody>
             @forelse ($categories as $category)
                 <tr class="hover:bg-gray-100">
-                    <td class="py-2 px-4 border">{{ $category->name }}</td>
-                    <td class="py-2 px-4 border">{{ $category->created_at->format('d/m/Y H:i') }}</td>
-                    <td class="py-2 px-4 border text-center">
-                        <button wire:click="editCategory('{{ $category->id }}')" class="btn btn-secondary mr-2">Editar</button>
-                        <button wire:click="deleteCategory('{{ $category->id }}')" wire:confirm="Tem certeza que deseja deletar esta categoria?" class="btn btn-danger">Deletar</button>
+                    <td>{{ $category->name }}</td>
+                    <td>{{ $category->created_at->format('d/m/Y H:i') }}</td>
+                    <td class="text-center">
+                        <button wire:click="editCategory('{{ $category->id }}')" class="btn btn-outline-secondary waves-effect mr-2">Editar</button>
+                        <button wire:click="deleteCategory('{{ $category->id }}')" wire:confirm="Tem certeza que deseja deletar esta categoria?" class="btn btn-outline-danger waves-effect waves-light">Deletar</button>
                     </td>
                 </tr>
             @empty
@@ -43,6 +49,7 @@
             @endforelse
         </tbody>
     </table>
+</div>
 
     <div class="mt-4">
         {{ $categories->links() }}
@@ -58,4 +65,8 @@
             </div>
         </div>
     @endif
+</div>
+</div>
+</div>
+</div>
 </div>

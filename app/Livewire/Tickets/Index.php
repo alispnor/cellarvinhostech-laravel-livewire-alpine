@@ -16,6 +16,7 @@ class Index extends Component
     public $statusFilter = '';
     public $showTicketFormModal = false;
     public $editingTicketId = null;
+    public $status = 'aberto';
 
     protected $listeners = ['ticketSaved' => 'refreshTickets', 'ticketDeleted' => 'refreshTickets', 'closeModal' => 'closeModal'];
 
@@ -28,6 +29,10 @@ class Index extends Component
     {
         $this->editingTicketId = null;
         $this->showTicketFormModal = true;
+        $this->ticketId = null;
+        $this->title = '';
+        $this->description = '';
+        $this->status = 'aberto';
     }
 
     public function editTicket($ticketId)

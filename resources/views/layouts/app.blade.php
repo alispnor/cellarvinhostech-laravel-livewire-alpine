@@ -13,6 +13,9 @@
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/libs/tablesaw/tablesaw.css') }}" rel="stylesheet" />
+    <script src="{{ asset('assets/js/head.js') }}"></script>
+
 
     {{-- Livewire & Vite --}}
     @livewireStyles
@@ -96,6 +99,8 @@
     {{-- JS --}}
     <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
     <script src="{{ asset('assets/js/app.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/tablesaw/tablesaw.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/tablesaw.init.js') }}"></script>
 
     {{-- Livewire & Alpine --}}
     @livewireScripts
