@@ -12,32 +12,14 @@ class Index extends Component
     use WithPagination;
 
     public $search = '';
-    public $statusFilter = '';
     public $categoryFilter = '';
-
+    public $statusFilter = '';
     public $showTicketFormModal = false;
     public $editingTicketId = null;
 
-    public $categories = []; // Para popular o filtro e o formulário
-
-    protected $listeners = ['ticketSaved' => 'refreshTickets', 'ticketDeleted' => 'refreshTickets'];
-
-    public function mount()
-    {
-        $this->categories = Category::all();
-    }
+    protected $listeners = ['ticketSaved' => 'refreshTickets', 'ticketDeleted' => 'refreshTickets', 'closeModal' => 'closeModal'];
 
     public function updatedSearch()
-    {
-        $this->resetPage();
-    }
-
-    public function updatedStatusFilter()
-    {
-        $this->resetPage();
-    }
-
-    public function updatedCategoryFilter()
     {
         $this->resetPage();
     }
@@ -48,15 +30,17 @@ class Index extends Component
         $this->showTicketFormModal = true;
     }
 
-    public function editTicket(Ticket $ticket)
+    public function editTicket($ticketId)
     {
-        $this->editingTicketId = $ticket->id;
+        $this->editingTicketId = $ticketId;
         $this->showTicketFormModal = true;
     }
 
-    public function deleteTicket(Ticket $ticket)
+    public function deleteTicket($ticketId)
     {
+        $ticket = Ticket::findOrFail($ticketId);
         $ticket->delete();
+
         session()->flash('message', 'Chamado deletado com sucesso!');
         $this->dispatch('ticketDeleted');
     }
@@ -77,25 +61,20 @@ class Index extends Component
         $query = Ticket::with('category');
 
         if (!empty($this->search)) {
-            $searchTerm = '%' . $this->search . '%';
-            $query->where(function ($q) use ($searchTerm) {
-                $q->where('title', 'like', $searchTerm)
-                  ->orWhere('description', 'like', $searchTerm);
-            });
-        }
-
-        if (!empty($this->statusFilter)) {
-            $query->where('status', $this->statusFilter);
+            $query->where('title', 'like', '%' . $this->search . '%');
         }
 
         if (!empty($this->categoryFilter)) {
             $query->where('category_id', $this->categoryFilter);
         }
 
-        $tickets = $query->latest()->paginate(10);
+        if (!empty($this->statusFilter)) {
+            $query->where('status', $this->statusFilter);
+        }
 
         return view('livewire.tickets.index', [
-            'tickets' => $tickets,
-        ]);
+            'tickets' => $query->latest()->paginate(10),
+            'categories' => Category::all(),
+        ])->layout('layouts.app');
     }
 }

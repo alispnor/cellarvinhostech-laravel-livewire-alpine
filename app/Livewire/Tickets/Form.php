@@ -1,38 +1,37 @@
 <?php
-
 namespace App\Livewire\Tickets;
 
 use Livewire\Component;
 use App\Models\Ticket;
-use App\Models\Category; // Para listar categorias no select
+use App\Models\Category;
 
 class Form extends Component
 {
     public $ticketId;
     public $title = '';
     public $description = '';
-    public $status = 'aberto'; // Regra de negócio: status padrão
+    public $status = 'aberto';
     public $category_id = '';
 
-    public $categories = []; // Para popular o select de categorias
-
-    protected $rules = [
-        'title' => 'required|string|max:255',
-        'description' => 'required|string',
-        'category_id' => 'required|exists:categories,id',
-        'status' => 'required|in:aberto,em progresso,resolvido',
-    ];
+    protected function rules()
+    {
+        return [
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'required|in:aberto,em progresso,resolvido',
+            'category_id' => 'required|exists:categories,id',
+        ];
+    }
 
     protected $messages = [
+        'title.required' => 'O título é obrigatório.',
+        'status.required' => 'O status é obrigatório.',
         'category_id.required' => 'A categoria é obrigatória.',
-        'category_id.exists' => 'A categoria selecionada não é válida.',
-        // Adicione outras mensagens de validação personalizadas aqui
     ];
 
     public function mount($ticketId = null)
     {
         $this->ticketId = $ticketId;
-        $this->categories = Category::all(); // Carrega todas as categorias
 
         if ($this->ticketId) {
             $ticket = Ticket::find($this->ticketId);
@@ -54,7 +53,6 @@ class Form extends Component
             'description' => $this->description,
             'status' => $this->status,
             'category_id' => $this->category_id,
-            // 'created_by' => auth()->id(), // Se houver autenticação
         ];
 
         if ($this->ticketId) {
@@ -77,6 +75,8 @@ class Form extends Component
 
     public function render()
     {
-        return view('livewire.tickets.form');
+        return view('livewire.tickets.form', [
+            'categories' => Category::all(),
+        ]);
     }
 }

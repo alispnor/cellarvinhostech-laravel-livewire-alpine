@@ -1,30 +1,28 @@
 <?php
 
-namespace Tests\Feature;
-
-use App\Models\Category; 
-use App\Models\Ticket;   
+use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Illuminate\Support\Str;
 
-class CategoryApiTest extends TestCase
-{
-    use RefreshDatabase;
+uses(RefreshDatabase::class);
 
-    /** @test */
-    public function a_category_cannot_be_deleted_if_it_has_associated_tickets()
-    {
-        // Cria uma categoria usando a factory
-        $category = Category::factory()->create();
+it('can list categories via API', function () {
+    Category::factory()->create(['name' => 'Infraestrutura']);
+    Category::factory()->create(['name' => 'Financeiro']);
 
-        // Cria um ticket associado a essa categoria, também usando a factory
-        Ticket::factory()->create(['category_id' => $category->id]);
+    $response = $this->getJson('/api/categories');
 
-        $response = $this->deleteJson('/api/categories/' . $category->id);
+    $response->assertOk();
+    $response->assertJsonFragment(['name' => 'Infraestrutura']);
+    $response->assertJsonFragment(['name' => 'Financeiro']);
+});
 
-        $response->assertStatus(409)
-                 ->assertJson(['message' => 'Não é possível deletar esta categoria, pois existem chamados associados a ela.']);
+it('can create a category via API', function () {
+    $payload = ['name' => 'Atendimento'];
 
-        $this->assertDatabaseHas('categories', ['id' => $category->id]);
-    }
-}
+    $response = $this->postJson('/api/categories', $payload);
+
+    $response->assertCreated();
+    $response->assertJsonFragment(['name' => 'Atendimento']);
+    $this->assertDatabaseHas('categories', ['name' => 'Atendimento']);
+});

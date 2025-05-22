@@ -83,6 +83,6 @@ class Index extends Component
 
         return view('livewire.categories.index', [
             'categories' => $categories,
-        ]);
+        ])->layout('layouts.app');
     }
 }
