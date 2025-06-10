@@ -1,7 +1,7 @@
 
-# 🍷 Sistema de Gestão de Chamados - Cellar Vinhos
+# 🍷 Sistema de Gestão de Chamados
 
-Este é um projeto desenvolvido como teste técnico para a posição de Desenvolvedor(a) Sênior PHP/Laravel. Ele implementa um sistema simples de gestão de chamados com funcionalidades CRUD (Criar, Ler, Atualizar, Deletar) e filtragem, utilizando Laravel no backend e uma combinação de Livewire e Alpine.js para o frontend reativo. O design da interface é baseado no tema Ubold (Bootstrap), conforme solicitado.
+Este é um projeto desenvolvido como teste técnico  PHP/Laravel. Ele implementa um sistema simples de gestão de chamados com funcionalidades CRUD (Criar, Ler, Atualizar, Deletar) e filtragem, utilizando Laravel no backend e uma combinação de Livewire e Alpine.js para o frontend reativo. O design da interface é baseado no tema Ubold (Bootstrap), conforme solicitado.
 
 ---
 
